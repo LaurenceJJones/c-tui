@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/charmbracelet/log"
 	yaml "gopkg.in/yaml.v2"
 )
 
@@ -23,6 +24,7 @@ func NewConfig(path string) (*Config, error) {
 
 func loadConfigFromPath(config *Config, path string) error {
 	if path != "" {
+		log.Info("loading configuration from file", "path", path)
 		yamlFile, err := os.Open(path)
 		if err == nil {
 			defer yamlFile.Close()

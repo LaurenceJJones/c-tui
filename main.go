@@ -20,6 +20,7 @@ import (
 
 func main() {
 	configPath := flag.String("config", "", "path to the config file")
+	flag.Parse()
 	config, err := NewConfig(*configPath)
 	if err != nil {
 		log.Error("could not load config", "error", err)
