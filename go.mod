@@ -2,17 +2,19 @@ module github.com/LaurenceJJones/c-tui
 
 go 1.21.6
 
-require gopkg.in/yaml.v2 v2.4.0
+require (
+	github.com/charmbracelet/bubbletea v0.25.0
+	github.com/charmbracelet/lipgloss v0.9.1
+	github.com/charmbracelet/log v0.3.1
+	github.com/charmbracelet/ssh v0.0.0-20240202115812-f4ab1009799a
+	github.com/charmbracelet/wish v1.3.0
+	gopkg.in/yaml.v2 v2.4.0
+)
 
 require (
 	github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
-	github.com/charmbracelet/bubbletea v0.25.0 // indirect
 	github.com/charmbracelet/keygen v0.5.0 // indirect
-	github.com/charmbracelet/lipgloss v0.9.1 // indirect
-	github.com/charmbracelet/log v0.3.1 // indirect
-	github.com/charmbracelet/ssh v0.0.0-20240202115812-f4ab1009799a // indirect
-	github.com/charmbracelet/wish v1.3.0 // indirect
 	github.com/charmbracelet/x/errors v0.0.0-20240202113029-6ff29cf0473e // indirect
 	github.com/charmbracelet/x/exp/term v0.0.0-20240202113029-6ff29cf0473e // indirect
 	github.com/containerd/console v1.0.4 // indirect
@@ -27,7 +29,6 @@ require (
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/rivo/uniseg v0.4.6 // indirect
-	github.com/u-root/u-root v0.12.0 // indirect
 	golang.org/x/crypto v0.18.0 // indirect
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a // indirect
 	golang.org/x/sync v0.6.0 // indirect

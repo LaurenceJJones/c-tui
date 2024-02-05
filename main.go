@@ -6,6 +6,7 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
 	"os"
 	"os/signal"
 	"syscall"
@@ -18,7 +19,8 @@ import (
 )
 
 func main() {
-	config, err := NewConfig("")
+	configPath := flag.String("config", "", "path to the config file")
+	config, err := NewConfig(*configPath)
 	if err != nil {
 		log.Error("could not load config", "error", err)
 	}
