@@ -1,3 +1,3 @@
-addr: 127.0.0.1:65535
+addr: 127.0.0.1:1337
 trusted_keys:
   - .ssh/test.pub

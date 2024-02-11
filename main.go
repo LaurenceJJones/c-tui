@@ -18,11 +18,11 @@ import (
 func main() {
 	config, err := NewConfig()
 	if err != nil {
-		log.Error("could not load config", "error", err)
+		log.Fatal("could not load config", "error", err)
 	}
 	s, err := NewServer(config)
 	if err != nil {
-		log.Error("could not start server", "error", err)
+		log.Fatal("could not start server", "error", err)
 	}
 
 	done := make(chan os.Signal, 1)

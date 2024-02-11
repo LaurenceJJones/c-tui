@@ -43,7 +43,7 @@ func loadConfigFromPath(config *Config, path string) error {
 			if err := dec.Decode(config); err != nil {
 				return fmt.Errorf("can't parse configuration file %s : %s", path, err)
 			}
-		} else if !os.IsNotExist(err) {
+		} else if os.IsNotExist(err) {
 			return fmt.Errorf("can't open configuration file %s : %s", path, err)
 		}
 	}

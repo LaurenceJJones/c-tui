@@ -5,7 +5,6 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/table"
 	"github.com/charmbracelet/ssh"
 	"github.com/charmbracelet/wish"
@@ -14,24 +13,31 @@ import (
 
 type TickMsg time.Time
 
-// Just a generic tea.Model to demo terminal information of ssh.
-type model struct {
-	term      string
-	width     int
-	height    int
-	txtStyle  lipgloss.Style
-	quitStyle lipgloss.Style
+type session struct {
+	tea.Model
+	_term term
 }
 
-func (m model) Init() tea.Cmd {
+type term struct {
+	term   string
+	width  int
+	height int
+	user   string
+}
+
+func (t *term) updateHW(w, h int) {
+	t.width = w
+	t.height = h
+}
+
+func (m session) Init() tea.Cmd {
 	return fetchData()
 }
 
-func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m session) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
-		m.height = msg.Height
-		m.width = msg.Width
+		m._term.updateHW(msg.Height, msg.Width)
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "q", "ctrl+c":
@@ -57,13 +63,13 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		wish.Fatalln(s, "no active terminal, skipping")
 		return nil, nil
 	}
-	renderer := bm.MakeRenderer(s)
-	m := model{
-		term:      pty.Term,
-		width:     pty.Window.Width,
-		height:    pty.Window.Height,
-		txtStyle:  renderer.NewStyle().Foreground(lipgloss.Color("10")),
-		quitStyle: renderer.NewStyle().Foreground(lipgloss.Color("8")),
+	m := session{
+		_term: term{
+			user:   s.Context().User(),
+			term:   pty.Term,
+			width:  pty.Window.Width,
+			height: pty.Window.Height,
+		},
 	}
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
 }
@@ -75,9 +81,9 @@ func fetchData() tea.Cmd {
 	})
 }
 
-func (m model) View() string {
-	s := table.New().Width(80).Headers([]string{"TERM", "WIDTH", "HEIGHT"}...).Rows([][]string{
-		{m.term, fmt.Sprintf("%d", m.width), fmt.Sprintf("%d", m.height)},
+func (m session) View() string {
+	s := table.New().Width(80).Headers([]string{"TERM", "WIDTH", "HEIGHT", "USER"}...).Rows([][]string{
+		{m._term.term, fmt.Sprintf("%d", m._term.width), fmt.Sprintf("%d", m._term.height), m._term.user},
 	}...)
 
 	return s.Render()
